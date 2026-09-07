@@ -35,7 +35,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 
 public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
-    SignInButton signinbutton;
+   SignInButton signinbutton;
     ViewFlipper flipper;
     GoogleApiClient mGoogleApiClient;
     public EditText email;
@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        signinbutton = findViewById(R.id.signinbutton);
+        signinbutton = findViewById(R.id.loginbutton);
         signinbutton.setOnClickListener(this);
 
     }
@@ -144,7 +144,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.signinbutton:
+            case R.id.loginbutton:
                 signIn();
                 break;
          /*   case R.id.signoutbutton:
@@ -193,7 +193,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Snackbar.make(findViewById(R.id.signinbutton), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.loginbutton), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                         }
 

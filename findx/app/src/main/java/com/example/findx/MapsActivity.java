@@ -23,6 +23,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
@@ -114,6 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fillLocalList();//preeenche a searchbar baseado no array
         fabOnclick();//abre a navbar
         centerFab();//centraliza no usuario
+        userPage();//pag do usuario
 
         stopLoading();
         erase();
@@ -126,6 +128,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AutoCompleteTextView editText = findViewById(R.id.searchbar);
         AutoCompleteLocalAdapter adapter = new AutoCompleteLocalAdapter(this, localList);
         editText.setAdapter(adapter);
+
+        final FloatingActionButton close = (FloatingActionButton) findViewById(R.id.close_button);
+        final Animation hideClose = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.hide_close);
+        close.hide();
 
         wifiCheck();
         getLocationPermission();
@@ -209,21 +215,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Float longitude = Float.parseFloat(dataSnapshot.child("longitude").getValue().toString());
 
 
-                                // adiciona um marcador no mapa
-                                LatLng posicao = new LatLng(latitude, longitude);
-                                MarkerOptions assistencia = new MarkerOptions();
-                                assistencia.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                                mMap.addMarker(assistencia.position(posicao).title(nome));//.snippet("Population: 4,137,400"));
-                                final Marker markAssist = mMap.addMarker(assistencia);
-                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                    @Override
-                                    public boolean onMarkerClick(Marker marker) {
-                                        Toast.makeText(MapsActivity.this, " Assistência: " + markAssist.getTag(), Toast.LENGTH_SHORT).show();
-                                        return false;
-                                    }
-                                });
+                            // adiciona um marcador no mapa
+                            LatLng posicao = new LatLng(latitude, longitude);
+                            MarkerOptions assistencia = new MarkerOptions();
+                            assistencia.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                            mMap.addMarker(assistencia.position(posicao).title(nome));//.snippet("Population: 4,137,400"));
+                            final Marker markAssist = mMap.addMarker(assistencia);
 
-                            }
+                        }
 
 
 
@@ -248,7 +247,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         Intent suggestion = new Intent(getApplication(), Suggestion.class);
         startActivity(suggestion);
-        Toast.makeText(MapsActivity.this, "skhfsu " +(marker.getTag()), Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -304,6 +302,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final AlertDialog alert = builder.create();
         alert.show();
     }
+    public void userPage() {
+        final FloatingActionButton btn_user = (FloatingActionButton) findViewById(R.id.btn_user);
+        final FloatingActionButton close = (FloatingActionButton) findViewById(R.id.close_button);
+        final Animation showClose = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_center);
+        final Animation hideClose = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.hide_center);
+        final Animation showClosebtn = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_close);
+        final Animation hideClosebtn = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.hide_close);
+        final AppCompatImageView pag_user = (AppCompatImageView) findViewById(R.id.pag_user);
+        final Animation showUser = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_user_page);
+        final Animation hideUser = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.hide_user_page);
+        btn_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_user.hide();
+                pag_user.setVisibility(VISIBLE);
+                pag_user.startAnimation(showUser);
+                close.show();
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_user.show();
+                pag_user.setVisibility(GONE);
+                pag_user.startAnimation(hideUser);
+                pag_user.setVisibility(GONE);
+                close.hide();
+            }
+        });
+    }
     public void erase() {
         final AutoCompleteTextView editText = findViewById(R.id.searchbar);
         final ImageView clear = findViewById(R.id.clear);
@@ -338,6 +366,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            final View include = (View) findViewById(R.id.include);
             final TextView mTextMessage2 = (TextView) findViewById(R.id.message2);
             final TextView mTextMessage3 = (TextView) findViewById(R.id.message3);
             final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
@@ -352,6 +381,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         scrollView.setVisibility(GONE);
                         mFrag2.startAnimation(mHideFrag);
                         mFrag3.startAnimation(mHideFrag);
+                        include.setVisibility(VISIBLE);
                         mFrag2.setVisibility(GONE);
                         mFrag3 .setVisibility(GONE);
                     }
@@ -376,6 +406,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     if(mFrag3.getVisibility() == GONE && mFrag2.getVisibility() == GONE && mNavbar.getVisibility() == VISIBLE){
                         scrollView.setVisibility(GONE);
+                        include.setVisibility(GONE);
+                        mFrag2.startAnimation(mShowFrag);
+                        mFrag2.setVisibility(VISIBLE);
+                    }
+                    return true;
+                case R.id.navigation_comments:
+                    if(mFrag2.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
+                        scrollView.setVisibility(GONE);
+                        mFrag2.setVisibility(VISIBLE);
+                        mFrag3.setVisibility(GONE);
+                        mTextMessage2.setText(R.string.title_dashboard);
+                    }
+                    if(mFrag3.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
+                        scrollView.setVisibility(GONE);
+                        mFrag2.startAnimation(mShowFrag);
+                        mFrag2.setVisibility(VISIBLE);
+                        mFrag3.startAnimation(mHideFrag);
+                        mFrag3.setVisibility(GONE);
+                        mTextMessage2.setText(R.string.title_dashboard);
+                    }
+                    if(mFrag3.getVisibility() == GONE && mFrag2.getVisibility() == GONE && mNavbar.getVisibility() == VISIBLE){
+                        scrollView.setVisibility(GONE);
+                        include.setVisibility(GONE);
                         mFrag2.startAnimation(mShowFrag);
                         mFrag2.setVisibility(VISIBLE);
                     }
@@ -699,9 +752,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Address address = addressList.get(0);
                 final LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-                //MarkerOptions options = new MarkerOptions();
-                //options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                //mMap.addMarker(options.position(latLng).title("tem que po um naome nessa merdqa"));
+                MarkerOptions options = new MarkerOptions();
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                mMap.addMarker(options.position(latLng).title("tem que po um naome nessa merdqa"));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM),1500, null);
             }
             else

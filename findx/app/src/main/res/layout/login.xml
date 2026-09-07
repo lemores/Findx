@@ -114,7 +114,7 @@
         app:layout_constraintVertical_bias="0.733" />
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/signinbutton"
+        android:id="@+id/loginbutton"
         android:layout_width="150dp"
         android:layout_height="49dp"
         android:layout_marginStart="8dp"

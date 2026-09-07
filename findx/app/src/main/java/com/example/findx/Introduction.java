@@ -62,8 +62,8 @@ public class Introduction extends AppCompatActivity {
 
     }
     public void irparalogin(View view) {
-        Intent introducao = new Intent(getApplicationContext(), Login.class);
-        startActivity(introducao);
+        Intent login = new Intent(getApplicationContext(), Login.class);
+        startActivity(login);
     }
 
     public void irparacadastro(View view) {

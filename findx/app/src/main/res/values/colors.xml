@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0088ff</color>
+    <color name="colorPrimary">#14BFC5</color>
     <color name="colorPrimaryDark">#232323</color>
-    <color name="colorAccent">#0088ff</color>
+    <color name="colorAccent">#14BFC5</color>
 
-    <color name="colorPrimaryMap">#0088ff</color>
-    <color name="colorPrimaryDarkMap">#0088ff</color>
-    <color name="colorAccentMap">#0088ff</color>
+    <color name="colorPrimaryMap">#14BFC5</color>
+    <color name="colorPrimaryDarkMap">#14BFC5</color>
+    <color name="colorAccentMap">#14BFC5</color>
 </resources>
