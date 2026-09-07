@@ -204,7 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onDataChange (@NonNull DataSnapshot dataSnapshot)
             {
                 countAssist = (int) dataSnapshot.getChildrenCount();
-                Toast.makeText(MapsActivity.this, countAssist +" Assistências", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, countAssist +" Assistências", Toast.LENGTH_SHORT).show();
 
                 //Poem os marcadores de acordo com a quantidade registrada (countAssist)
                 for (int i = 1; i <= countAssist; i++)

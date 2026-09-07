@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -23,41 +23,40 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 public class Suggestion extends AppCompatActivity {
 
     private Button favB;
     private ImageView imageView;
-    TextView a,b,c,d,e,f;
+    TextView a, b, c, d, e, f;
     DatabaseReference reff;
     FirebaseUser user;
     String uid;
-    int i = 0;
-    int countAssist = 0;
     String assistParent;
     private int current_image;
     ImageView favImage;
-    int[] images = {R.drawable.salvar,R.drawable.salvo};
+    int[] images = {R.drawable.salvar, R.drawable.salvo};
     String extraId;
+    RatingBar ratedBar;
+    ImageView assistImage;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.suggestion);
+
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
-       //Toast.makeText(Suggestion.this,"Marker position: "+getIntent().getStringExtra("Marker position"),Toast.LENGTH_SHORT).show();
-
+        assistImage = findViewById(R.id.assistImage);
+        ratedBar = findViewById(R.id.ratedBar);
         favImage = findViewById(R.id.favImage);
         favB = findViewById(R.id.favB);
-        imageView = findViewById(R.id.image);
+        imageView = findViewById(R.id.assistImage);
         a = findViewById(R.id.nome_textview);
         b = findViewById(R.id.categoria_textview);
         c = findViewById(R.id.localizacao_textview);
@@ -65,40 +64,28 @@ public class Suggestion extends AppCompatActivity {
         e = findViewById(R.id.horario_textview);
         f = findViewById(R.id.site_textview);
 
-        // TODO deixar icone de favoritado quando salvo na banco
-        // TODO tirar assist do banco quando desfavoritado
 
-
-        //Acessando informações de quantidade de assists cadastradas
-        reff = FirebaseDatabase.getInstance().getReference().child("assistencias");
-        reff.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange (@NonNull DataSnapshot dataSnapshot)
-            {
-                countAssist = (int) dataSnapshot.getChildrenCount();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {}});
-
+        //Testando RatingBar
+        //assistImage.setVisibility(View.INVISIBLE);
 
         //Comparando Id recebido da assist clicada com Id´s do BD para descobrir child de qual assist é,
         //e puxar suas informações
         extraId = getIntent().getStringExtra("Marker Id");
 
+
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("1"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
         reff.addValueEventListener(new ValueEventListener() {
 
-                //Pegando os valores de Id´s do BD
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String Id = (String) dataSnapshot.child("id").getValue();
-                    Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
-                    //Comparando com o da assist clicada
-                    if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                //Comparando com o da assist clicada
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -129,15 +116,13 @@ public class Suggestion extends AppCompatActivity {
                     });
                 }
 
-                }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-
-
+            }
+        });
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("2"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -147,11 +132,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -189,9 +174,6 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("3"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -201,11 +183,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -243,8 +225,6 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("4"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -254,11 +234,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -296,8 +276,6 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("5"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -307,11 +285,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -349,8 +327,6 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("6"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -360,11 +336,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -402,8 +378,6 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("7"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -413,11 +387,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -455,8 +429,6 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("8"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -466,11 +438,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -508,8 +480,6 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("9"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -519,11 +489,11 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -561,24 +531,21 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
-
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("10"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
         reff.addValueEventListener(new ValueEventListener() {
 
 
-
             //Pegando os valores de Id´s do BD
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Id = (String) dataSnapshot.child("id").getValue();
-                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
                 //Comparando com o da assist clicada
-                if(extraId.equals(Id)){
-                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                if (extraId.equals(Id)) {
+                    assistParent = String.valueOf(dataSnapshot.getRef().getKey());
                     //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
 
 
@@ -618,14 +585,41 @@ public class Suggestion extends AppCompatActivity {
         });
 
 
-
-        //Favoritando assistências
-        favB.setOnClickListener(new OnClickListener() {
+        //Favoritando / Desfavoritando assist
+        reff = FirebaseDatabase.getInstance().getReference().child("usuarios").child(uid).child("favoritos");
+        reff.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                favAssist();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Se assist NÃO estiver na lista de favoritas...
+                if(!dataSnapshot.child(extraId).exists()) {
+                    current_image = R.drawable.salvar;
+                    favImage.setImageResource(current_image);
+
+                    favB.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            favAssist();
+                        }
+                    });
+                }
+                //Se assist estiver na lista de favoritas...
+                else{
+                    current_image = R.drawable.salvo;
+                    favImage.setImageResource(current_image);
+
+                    favB.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            desFavAssist();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
 
         //Firebase Storage image Link
         String url = "https://firebasestorage.googleapis.com/v0/b/findx-x6969.appspot.com/o/IMG-20180731-WA0000.jpg?alt=media&token=3b27f9f2-a0a5-4892-8276-69382e6ea1ce";
@@ -633,11 +627,12 @@ public class Suggestion extends AppCompatActivity {
 
     }
 
+
     private void favAssist() {
         //Configurando o tempo para salvar
         String saveCurrentTime;
         String saveCurrentDate;
-        i++;
+
 
         Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("dd MMM, YYYY");
@@ -655,23 +650,34 @@ public class Suggestion extends AppCompatActivity {
         favMap.put("data", saveCurrentDate);
         favMap.put("horário", saveCurrentTime);
 
-            favRef.child("usuarios").child(uid).child("favoritos").child(String.valueOf(i))
-                    .updateChildren(favMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        favRef.child("usuarios").child(uid).child("favoritos").child(extraId)
+              .updateChildren(favMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful())
-                    {
-                        Toast.makeText(Suggestion.this,"adicionado a lista de favoritos",Toast.LENGTH_SHORT).show();
-                        // mudando imagem icone de salvar assist
-                        current_image++;
-                        current_image= current_image % images.length;
-                        favImage.setImageResource(images[current_image]);
-
+                if (task.isSuccessful()) {
+                    Toast.makeText(Suggestion.this,"adicionado a lista de favoritos",Toast.LENGTH_SHORT).show();
+                    //Mudando icone
+                    current_image++;
+                    current_image= current_image % images.length;
+                    favImage.setImageResource(images[current_image]);
                     }
-
                 }
-            });
+        });
+    }
+
+    private void desFavAssist() {
+        Toast.makeText(Suggestion.this,"removido dos favoritos",Toast.LENGTH_SHORT).show();
+        //Mudando icone
+            current_image++;
+            current_image = current_image % images.length;
+            favImage.setImageResource((images[current_image]));
+        //Removendo do BD
+            reff = FirebaseDatabase.getInstance().getReference().child("usuarios").child(uid).child("favoritos").child(extraId);
+            reff.removeValue();
         }
+
+
+
 
     public void voltar(View view) {
             Intent voltar = new Intent(getApplication(), MapsActivity.class);

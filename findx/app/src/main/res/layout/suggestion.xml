@@ -10,7 +10,7 @@
     <View
         android:id="@+id/divider2"
         android:layout_width="wrap_content"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="?android:attr/listDivider"
@@ -72,7 +72,7 @@
     <View
         android:id="@+id/divider4"
         android:layout_width="wrap_content"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="?android:attr/listDivider"
@@ -87,7 +87,7 @@
     <View
         android:id="@+id/divider5"
         android:layout_width="wrap_content"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="?android:attr/listDivider"
@@ -102,7 +102,7 @@
     <View
         android:id="@+id/divider6"
         android:layout_width="wrap_content"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="?android:attr/listDivider"
@@ -131,7 +131,7 @@
         tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/assistImage"
         android:layout_width="410dp"
         android:layout_height="215dp"
         android:layout_centerHorizontal="true"
@@ -176,7 +176,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.977"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@+id/assistImage"
         app:layout_constraintVertical_bias="0.026"
 
         tools:ignore="MissingConstraints" />
@@ -194,62 +194,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.977"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@+id/assistImage"
         app:layout_constraintVertical_bias="0.026"
 
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/nome_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="295dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/segoeuibold"
         android:paddingLeft="5dp"
         android:textColor="#ffff"
         android:textSize="23dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintEnd_toStartOf="@+id/favB"
+        app:layout_constraintHorizontal_bias="0.31"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.038"
+        app:layout_constraintTop_toBottomOf="@+id/assistImage"
+        app:layout_constraintVertical_bias="0.039"
         tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tipo_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/semiboldsegoeui"
-        android:text="Categoria"
-        android:textColor="#14BFC5"
-        android:textSize="17dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.053"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.145"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/categoria_textview"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/semiboldsegoeui"
-        android:paddingLeft="10dp"
-        android:textColor="#707070"
-        android:textSize="17dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tipo_textview"
-        tools:ignore="MissingConstraints,OnClick" />
 
     <View
         android:id="@+id/divider"
@@ -259,10 +226,10 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/categoria_textview"
-        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintTop_toBottomOf="@+id/assistImage"
+        app:layout_constraintVertical_bias="0.365"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -337,6 +304,68 @@
         app:layout_constraintStart_toEndOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/divider5"
         app:layout_constraintVertical_bias="0.512" />
+
+    <RatingBar
+        android:id="@+id/ratedBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="82dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="8dp"
+        android:numStars="5"
+        android:stepSize="1"
+        app:layout_constraintBottom_toTopOf="@+id/tipo_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nome_textview"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:numStars="5"
+        android:stepSize="1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/assistImage"
+        app:layout_constraintVertical_bias="0.428"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="272dp" />
+
+    <TextView
+        android:id="@+id/tipo_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/semiboldsegoeui"
+        android:text="Categoria"
+        android:textColor="#14BFC5"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assistImage"
+        app:layout_constraintVertical_bias="0.145"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/categoria_textview"
+        android:layout_width="200dp"
+        android:layout_height="51dp"
+        android:fontFamily="@font/semiboldsegoeui"
+        android:paddingLeft="10dp"
+        android:textColor="#707070"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipo_textview"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints,OnClick" />
 
 
 </android.support.constraint.ConstraintLayout>

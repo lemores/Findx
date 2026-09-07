@@ -5,6 +5,7 @@
       <w>achar</w>
       <w>acordo</w>
       <w>adicionado</w>
+      <w>assistencia</w>
       <w>assistencias</w>
       <w>assistência</w>
       <w>assistências</w>
@@ -18,14 +19,19 @@
       <w>comparando</w>
       <w>configurando</w>
       <w>confusao</w>
+      <w>crashlytics</w>
       <w>deixar</w>
       <w>descobrir</w>
       <w>desfavoritado</w>
+      <w>desfavoritando</w>
       <w>endereco</w>
       <w>esteja</w>
+      <w>estiver</w>
+      <w>está</w>
       <w>favoritada</w>
       <w>favoritado</w>
       <w>favoritando</w>
+      <w>favoritas</w>
       <w>favoritos</w>
       <w>ficar</w>
       <w>firebase</w>
@@ -39,11 +45,13 @@
       <w>jeito</w>
       <w>lista</w>
       <w>logado</w>
+      <w>manter</w>
       <w>marcadores</w>
       <w>mudando</w>
       <w>nulo</w>
       <w>pegando</w>
       <w>percorrer</w>
+      <w>pressionada</w>
       <w>puxando</w>
       <w>puxar</w>
       <w>qual</w>
@@ -53,6 +61,9 @@
       <w>recebidos</w>
       <w>reff</w>
       <w>registrada</w>
+      <w>removendo</w>
+      <w>removido</w>
+      <w>salva</w>
       <w>salvando</w>
       <w>salvar</w>
       <w>selecionada</w>
@@ -66,6 +77,7 @@
       <w>transformar</w>
       <w>usuarios</w>
       <w>valores</w>
+      <w>verificando</w>
       <w>voltar</w>
     </words>
   </dictionary>
