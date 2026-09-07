@@ -7,7 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start|end"
-    tools:context=".MapsActivity">
+    tools:context=".MapsActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/navfab"
         android:layout_width="wrap_content"
@@ -72,7 +74,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/costume_act_bg2"
-        android:visibility="visible"
+        android:visibility="gone"
         app:elevation="5dp"
         app:labelVisibilityMode="labeled"
         app:layout_anchor="@+id/activity_main"
@@ -107,44 +109,12 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="4dp"
         android:layout_marginTop="30dp"
-        android:elevation="8dp"
+        android:elevation="9dp"
         android:fadingEdgeLength="9dp"
         android:src="@drawable/ic_map"
         android:visibility="gone"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="left|top" />
-
-    <LinearLayout
-        android:id="@+id/pag_user2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="10dp"
-        android:background="#14BFC5"
-        android:elevation="8.00000001dp"
-        android:fadingEdgeLength="0dp"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_anchorGravity="left|top">
-
-
-    <Button
-        android:id="@+id/foudasi"
-        android:layout_width="2dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assistImage"
-/>
-
-    </LinearLayout>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/shadow"
@@ -159,7 +129,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="4dp"
         android:backgroundTint="#fff"
         android:src="@drawable/ic_close_black_8dp"
         app:borderWidth="0dp"
@@ -275,8 +245,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        tools:context=".MainActivity"
-        app:umanoPanelHeight="68dp">
+        tools:context=".MainActivity">
 
         <RelativeLayout
             android:id="@+id/mainContent"
@@ -291,14 +260,13 @@
                 layout="@layout/activity_maps"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MapsActivity" />
+                tools:context=".MapsActivity"/>
             <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:backgroundTint="#fff"
                 android:elevation="10dp"
-                android:visibility="visible">
-            </android.support.v7.widget.LinearLayoutCompat>
+                android:visibility="visible"></android.support.v7.widget.LinearLayoutCompat>
 
 
             <android.support.v7.widget.LinearLayoutCompat

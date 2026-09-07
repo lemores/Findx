@@ -4,15 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="#000">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:id="@+id/foreground_push"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#212121">
-
-
 
         <LinearLayout
             android:id="@+id/toolbar_layout"
@@ -24,35 +20,203 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/push_sheet" />
+                android:id="@+id/arrow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/arrow_up_24dp" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" >
+
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/segoeuibold"
+                    android:text="Menu"
+                    android:textColor="#000"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardsujo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.013"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/semiboldsegoeui"
+                    android:text="Recomendados"
+                    android:textColor="#000"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardsujo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.052"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:layout_constraintVertical_bias="1.0" />
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:id="@+id/cardfav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    android:elevation="2dp"
+                    android:fadingEdgeLength="2dp"
+                    app:cardBackgroundColor="#C9C7C6"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="2dp"
+                    app:cardMaxElevation="2dp"
+                    app:cardUseCompatPadding="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cardsujo"
+                    app:layout_constraintVertical_bias="0.077"
+                    tools:layout_editor_absoluteX="16dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/favoritedAssists"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="30dp"
+                        android:text="favoritedAssists"
+                        android:textColor="#fff" />
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/semiboldsegoeui"
+                    android:text="Favoritos"
+                    android:textColor="#000"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardfav"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardsujo"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:id="@+id/cardsujo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:elevation="2dp"
+                    android:fadingEdgeLength="2dp"
+                    app:cardBackgroundColor="#C9C7C6"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="2dp"
+                    app:cardMaxElevation="2dp"
+                    app:cardUseCompatPadding="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.049"
+                    tools:layout_editor_absoluteX="28dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/recommendedAssists"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="30dp"
+                        android:text="recommendedAssists"
+                        android:textColor="#fff" />
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/sugestoes"
+                        android:spinnerMode="dropdown" />
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/semiboldsegoeui"
+                    android:text="Suas avaliações"
+                    android:textColor="#000"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardaval"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.052"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardfav"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardaval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:elevation="2dp"
+                    android:fadingEdgeLength="2dp"
+                    app:cardBackgroundColor="#C9C7C6"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="2dp"
+                    app:cardMaxElevation="2dp"
+                    app:cardUseCompatPadding="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardfav"
+                    app:layout_constraintVertical_bias="0.113">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/avaliatedAssists"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="30dp"
+                        android:text="avaliatedAssists"
+                        android:textColor="#fff" />
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/content_sample"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardaval"
+                    app:layout_constraintVertical_bias="0.824">
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:background="#efefef"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/content_sample"
+                        app:layout_constraintVertical_bias="1.0">
+
+                    </RelativeLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="460dp"
-            android:layout_alignParentBottom="true">
-
-
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="460dp"
-                android:clickable="false"
-                android:background="#efefef"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0">
-            </RelativeLayout>
-        </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 </RelativeLayout>

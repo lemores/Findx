@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">findx</string>
+
+
+    <string-array name="sugestoes">
+        <item>smarthphones</item>
+        <item>informática geral</item>
+        <item>eletrônicos</item>
+        <item>eletrodomésticos</item>
+        <item>video games</item>
+
+    </string-array>
+
     <string name="title_activity_maps">Map</string>
 
     <string name="title_activity_search">Search</string>
@@ -13,7 +24,9 @@
     <string name="title_section3">Section 3</string>
 
     <string name="title_home">Casinha</string>
+
     <string name="title_comments">Comentários</string>
+
     <string name="title_dashboard">Estrelinha</string>
 
     <string name="title_notifications">Sininho</string>
@@ -51,6 +64,8 @@
     <string name="menu_share">Share</string>
 
     <string name="menu_send">Send</string>
+
     <string name="sair">Sair</string>
+
     <string name="categoria">Categoria</string>
 </resources>

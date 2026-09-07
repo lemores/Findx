@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -60,6 +61,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,7 +104,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int countAssist = 0;
     String CurrentuserID;
     DatabaseReference reff;
-    GoogleApiClient mGoogleApiClient;
 
     //TODO Mudar icone do favorito quando apertado
     //TODO Configurar página de favoritos, e remove-los
@@ -124,13 +125,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fabOnclick();//abre a navbar
         centerFab();//centraliza no usuario
         userPage();//pag do usuario
+        FloatingActionButton btn_user = (FloatingActionButton) findViewById(R.id.btn_user);
+
+        btn_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presentActivity(v);
+            }
+        });
 
         stopLoading();
         erase();
-        final BottomNavigationView mNavbar = (BottomNavigationView) findViewById(R.id.Navbar);
-        final Animation mShowNavbar = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_navbar);
-        mNavbar.setVisibility(VISIBLE);
-        mNavbar.startAnimation(mShowNavbar);
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.activity_main);
 
         AutoCompleteTextView editText = findViewById(R.id.searchbar);
@@ -143,8 +148,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         wifiCheck();
         getLocationPermission();
-        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.Navbar);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     @Override
@@ -168,6 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "onMapReady: mapa ta pronto");
         getWindow().setStatusBarColor(Color.parseColor("#20111111"));
         getWindow().setNavigationBarColor(Color.parseColor("#20111111"));
+        FloatingActionButton btn_user = (FloatingActionButton) findViewById(R.id.btn_user);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
@@ -209,6 +213,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 countAssist = (int) dataSnapshot.getChildrenCount();
                 //Toast.makeText(MapsActivity.this, countAssist +" Assistências", Toast.LENGTH_SHORT).show();
 
+
                 //Poem os marcadores de acordo com a quantidade registrada (countAssist)
                 for (int i = 1; i <= countAssist; i++)
                 {
@@ -222,14 +227,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Float longitude = Float.parseFloat(dataSnapshot.child("longitude").getValue().toString());
 
 
-                            // adiciona um marcador no mapa
+                            //adiciona um marcador no mapa
                             LatLng posicao = new LatLng(latitude, longitude);
                             MarkerOptions assistencia = new MarkerOptions();
                             assistencia.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                             mMap.addMarker(assistencia.position(posicao).title(nome));//.snippet("Population: 4,137,400"));
 
-                        }
 
+                        }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) { }
 
@@ -261,18 +266,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
+        RelativeLayout bottom_sheet = (RelativeLayout)findViewById(R.id.bottom_sheet);
+        ImageView arrow = (ImageView)findViewById(R.id.arrow);
+        if(mLayout.getPanelState() == PanelState.ANCHORED){
+            mLayout.setPanelHeight(100);
+        }
+        if(mLayout.getPanelState() == PanelState.EXPANDED){
+            mLayout.setPanelHeight(500);
+        }
+        if(mLayout.getPanelState() == PanelState.COLLAPSED){
+            mLayout.setPanelHeight(100);
+        }
         if (mLayout != null &&
                 (mLayout.getPanelState() == PanelState.EXPANDED || mLayout.getPanelState() == PanelState.ANCHORED)) {
             mLayout.setPanelState(PanelState.COLLAPSED);
+            mLayout.setPanelHeight(100);
+
         } else {
             super.onBackPressed();
+            mLayout.setPanelHeight(100);
         }
+    }
+    public void presentActivity(View view) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, view, "transition");
+        int revealX = (int) (view.getX() + view.getWidth() / 2);
+        int revealY = (int) (view.getY() + view.getHeight() / 2);
+
+        Intent intent = new Intent(this, userPage.class);
+        intent.putExtra(userPage.EXTRA_CIRCULAR_REVEAL_X, revealX);
+        intent.putExtra(userPage.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+
+        ActivityCompat.startActivity(this, intent, options.toBundle());
     }
     public void stopStop(){
         final ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar);
         CameraPosition cameraPosition = mMap.getCameraPosition();
         if(cameraPosition.zoom == DEFAULT_ZOOM) {
             waitTimer.cancel();
+            mLayout.setPanelHeight(100);
+            mLayout.setPanelState(PanelState.ANCHORED);
             spinner.setVisibility(GONE);
         } else{
         }
@@ -312,7 +345,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     public void userPage() {
         final View map = (View) findViewById(R.id.map);
-        final LinearLayout user2 = (LinearLayout) findViewById(R.id.pag_user2);
         final FloatingActionButton btn_user = (FloatingActionButton) findViewById(R.id.btn_user);
         final FloatingActionButton close = (FloatingActionButton) findViewById(R.id.close_button);
         final Animation showClose = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_center);
@@ -332,7 +364,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 pag_user.setVisibility(VISIBLE);
                 pag_user.startAnimation(showUser);
                 close.show();
-                user2.startAnimation(user2_open);
             }
         });
         close.setOnClickListener(new View.OnClickListener() {
@@ -343,7 +374,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 pag_user.startAnimation(hideUser);
                 pag_user.setVisibility(GONE);
                 close.hide();
-                user2.startAnimation(user2_close);
                 map.setVisibility(VISIBLE);
             }
         });
@@ -377,103 +407,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            final View include = (View) findViewById(R.id.include);
-            final TextView mTextMessage2 = (TextView) findViewById(R.id.message2);
-            final TextView mTextMessage3 = (TextView) findViewById(R.id.message3);
-            final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-            final LinearLayoutCompat mFrag2 = (LinearLayoutCompat) findViewById(R.id.frag2);
-            final LinearLayoutCompat mFrag3 = (LinearLayoutCompat) findViewById(R.id.frag3);
-            final BottomNavigationView mNavbar = (BottomNavigationView) findViewById(R.id.Navbar);
-            final Animation mShowFrag = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_frag);
-            final Animation mHideFrag = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.hide_frag);
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    if(mFrag2.getVisibility() == VISIBLE || mFrag3.getVisibility() == VISIBLE) {
-                        scrollView.setVisibility(GONE);
-                        mFrag2.startAnimation(mHideFrag);
-                        mFrag3.startAnimation(mHideFrag);
-                        include.setVisibility(VISIBLE);
-                        mFrag2.setVisibility(GONE);
-                        mFrag3 .setVisibility(GONE);
-                    }
-                    else{
-                        scrollView.setVisibility(GONE);
-                    }
-                    return true;
-                case R.id.navigation_dashboard:
-                    if(mFrag2.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
-                        scrollView.setVisibility(GONE);
-                        mFrag2.setVisibility(VISIBLE);
-                        mFrag3.setVisibility(GONE);
-                        mTextMessage2.setText(R.string.title_dashboard);
-                    }
-                    if(mFrag3.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
-                        scrollView.setVisibility(GONE);
-                        mFrag2.startAnimation(mShowFrag);
-                        mFrag2.setVisibility(VISIBLE);
-                        mFrag3.startAnimation(mHideFrag);
-                        mFrag3.setVisibility(GONE);
-                        mTextMessage2.setText(R.string.title_dashboard);
-                    }
-                    if(mFrag3.getVisibility() == GONE && mFrag2.getVisibility() == GONE && mNavbar.getVisibility() == VISIBLE){
-                        scrollView.setVisibility(GONE);
-                        include.setVisibility(GONE);
-                        mFrag2.startAnimation(mShowFrag);
-                        mFrag2.setVisibility(VISIBLE);
-                    }
-                    return true;
-                case R.id.navigation_comments:
-                    if(mFrag2.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
-                        scrollView.setVisibility(GONE);
-                        mFrag2.setVisibility(VISIBLE);
-                        mFrag3.setVisibility(GONE);
-                        mTextMessage2.setText(R.string.title_dashboard);
-                    }
-                    if(mFrag3.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
-                        scrollView.setVisibility(GONE);
-                        mFrag2.startAnimation(mShowFrag);
-                        mFrag2.setVisibility(VISIBLE);
-                        mFrag3.startAnimation(mHideFrag);
-                        mFrag3.setVisibility(GONE);
-                        mTextMessage2.setText(R.string.title_dashboard);
-                    }
-                    if(mFrag3.getVisibility() == GONE && mFrag2.getVisibility() == GONE && mNavbar.getVisibility() == VISIBLE){
-                        scrollView.setVisibility(GONE);
-                        include.setVisibility(GONE);
-                        mFrag2.startAnimation(mShowFrag);
-                        mFrag2.setVisibility(VISIBLE);
-                    }
-                    return true;
-                case R.id.navigation_notifications:
-                    if(mFrag3.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
-                        scrollView.setVisibility(VISIBLE);
-                        mFrag3.setVisibility(VISIBLE);
-                        mFrag2.setVisibility(GONE);
-                        mTextMessage3.setText(R.string.title_notifications);
-                    }
-                    if(mFrag2.getVisibility() == VISIBLE && mNavbar.getVisibility() == VISIBLE) {
-                        scrollView.setVisibility(VISIBLE);
-                        mFrag3.startAnimation(mShowFrag);
-                        mFrag3.setVisibility(VISIBLE);
-                        mFrag2.setVisibility(GONE);
-                        mFrag2.startAnimation(mHideFrag);
-                        mTextMessage3.setText(R.string.title_notifications);
-                    }
-                    if(mFrag3.getVisibility() == GONE && mFrag2.getVisibility() == GONE  && mNavbar.getVisibility() == VISIBLE){
-                        mFrag3.setVisibility(VISIBLE);
-                        scrollView.setVisibility(VISIBLE);
-                        mFrag3.startAnimation(mShowFrag);
-                    }
-                    return true;
-            }
-            return false;
-        }
-    };
     private void centerFab() {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final FloatingActionButton mCenter = (FloatingActionButton) findViewById(R.id.center_button);
@@ -499,7 +432,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void fabOnclick() {
         final FloatingActionButton mFab = (FloatingActionButton) findViewById(R.id.fab);
         final FloatingActionButton navfab = (FloatingActionButton) findViewById(R.id.navfab);
-        final BottomNavigationView mNavbar = (BottomNavigationView) findViewById(R.id.Navbar);
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         final LinearLayoutCompat mFrag2 = (LinearLayoutCompat) findViewById(R.id.frag2);
         final LinearLayoutCompat mFrag3 = (LinearLayoutCompat) findViewById(R.id.frag3);
@@ -522,16 +454,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mFrag2.setVisibility(GONE);
                     scrollView.setVisibility(GONE);
                 }
-                if (mNavbar.getVisibility() == VISIBLE) {
-                    navfab.startAnimation(hideNavfab);
-                    mNavbar.setVisibility(View.GONE);
-                    mNavbar.startAnimation(mHideNavbar);
-                    mFab.startAnimation(mHideButton);
-                }
                 else {
                     navfab.startAnimation(showNavfab);
-                    mNavbar.setVisibility(VISIBLE);
-                    mNavbar.startAnimation(mShowNavbar);
                     mFab.startAnimation(mShowButton);
                 }
             }

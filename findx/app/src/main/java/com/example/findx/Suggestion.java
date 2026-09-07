@@ -1,10 +1,8 @@
 package com.example.findx;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,10 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -29,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.protobuf.FloatValue;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,7 +30,7 @@ import java.util.HashMap;
 
 public class Suggestion extends AppCompatActivity {
 
-    private Button favB;
+    Button favB;
     private ImageView imageView;
     TextView a, b, c, d, e, f, avaliaText;
     DatabaseReference reff;
@@ -51,6 +44,7 @@ public class Suggestion extends AppCompatActivity {
     RatingBar ratedBar;
     RatingBar ratingBar;
     ImageView assistImage;
+    Button button;
     EditText comentar;
     TextView enviarC;
     Button logoutButton;
@@ -65,6 +59,7 @@ public class Suggestion extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
+        button = findViewById(R.id.button);
         avaliaText = findViewById(R.id.avaliaText);
         assistImage = findViewById(R.id.assistImage);
         ratedBar = findViewById(R.id.ratedBar);
@@ -72,9 +67,7 @@ public class Suggestion extends AppCompatActivity {
         favImage = findViewById(R.id.favImage);
         favB = findViewById(R.id.favB);
         imageView = findViewById(R.id.assistImage);
-        comentar = findViewById(R.id.comentar);
-        enviarC = findViewById(R.id.enviar_comentario);
-        logoutButton = findViewById(R.id.logout);
+        //logoutButton = findViewById(R.id.logout);
         a = findViewById(R.id.nome_textview);
         b = findViewById(R.id.categoria_textview);
         c = findViewById(R.id.localizacao_textview);
@@ -82,11 +75,6 @@ public class Suggestion extends AppCompatActivity {
         e = findViewById(R.id.horario_textview);
         f = findViewById(R.id.site_textview);
 
-
-        //Testando RatingBar
-        //assistImage.setVisibility(View.INVISIBLE);
-        //ratingBar.setVisibility(View.INVISIBLE);
-        //avaliaText.setVisibility(View.INVISIBLE);
 
         //Comparando Id recebido da assist clicada com Id´s do BD para descobrir child de qual assist é,
         //e puxar suas informações
@@ -681,13 +669,13 @@ public class Suggestion extends AppCompatActivity {
             }
         });
 
-        //Configurando LogOut
+        /*Configurando LogOut
         logoutButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 logout();
             }
-        });
+        });*/
 
 
         /*Configurando comentários
