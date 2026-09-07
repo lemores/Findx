@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "101646754125",
+    "firebase_url": "https://findx-x6969.firebaseio.com",
+    "project_id": "findx-x6969",
+    "storage_bucket": "findx-x6969.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101646754125:android:7d6f2eb868284d7a",
+        "android_client_info": {
+          "package_name": "com.example.findx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101646754125-387r124ejt4eea8vpdobjq4ivb2utpdn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmPN7xBYBqoRvZgvklqDQ3mzYcTQJJ9OE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101646754125-387r124ejt4eea8vpdobjq4ivb2utpdn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
