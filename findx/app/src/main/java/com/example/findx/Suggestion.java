@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.protobuf.FloatValue;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,6 +42,7 @@ public class Suggestion extends AppCompatActivity {
     int[] images = {R.drawable.salvar, R.drawable.salvo};
     String extraId;
     RatingBar ratedBar;
+    RatingBar ratingBar;
     ImageView assistImage;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,12 @@ public class Suggestion extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.suggestion);
 
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
         assistImage = findViewById(R.id.assistImage);
         ratedBar = findViewById(R.id.ratedBar);
+        ratingBar = findViewById(R.id.ratingBar);
         favImage = findViewById(R.id.favImage);
         favB = findViewById(R.id.favB);
         imageView = findViewById(R.id.assistImage);
@@ -66,7 +68,7 @@ public class Suggestion extends AppCompatActivity {
 
 
         //Testando RatingBar
-        //assistImage.setVisibility(View.INVISIBLE);
+        assistImage.setVisibility(View.INVISIBLE);
 
         //Comparando Id recebido da assist clicada com Id´s do BD para descobrir child de qual assist é,
         //e puxar suas informações
@@ -591,7 +593,7 @@ public class Suggestion extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Se assist NÃO estiver na lista de favoritas...
-                if(!dataSnapshot.child(extraId).exists()) {
+                if (!dataSnapshot.child(extraId).exists()) {
                     current_image = R.drawable.salvar;
                     favImage.setImageResource(current_image);
 
@@ -603,7 +605,7 @@ public class Suggestion extends AppCompatActivity {
                     });
                 }
                 //Se assist estiver na lista de favoritas...
-                else{
+                else {
                     current_image = R.drawable.salvo;
                     favImage.setImageResource(current_image);
 
@@ -615,16 +617,56 @@ public class Suggestion extends AppCompatActivity {
                     });
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
 
-
         //Firebase Storage image Link
         String url = "https://firebasestorage.googleapis.com/v0/b/findx-x6969.appspot.com/o/IMG-20180731-WA0000.jpg?alt=media&token=3b27f9f2-a0a5-4892-8276-69382e6ea1ce";
         Glide.with(getApplicationContext()).load(url).into(imageView);
 
+
+        //Avaliando assistência
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                DatabaseReference reff = FirebaseDatabase.getInstance().getReference();
+
+                final HashMap<String, Object> rateMap = new HashMap<>();
+                rateMap.put("avaliação", rating);
+                rateMap.put("nomeAssist", a.getText().toString());
+
+                //Salvando hashmap no bd
+                reff.child("usuarios").child(uid).child("avaliações").child(extraId).updateChildren(rateMap);
+
+                /*Caso quisesse salvar apenas rating sem hashmap
+                reff.child("usuarios").child(uid).child("avaliações").child(extraId).setValue(rating);*/
+
+
+            }
+        });
+
+
+        //Calculando avaliação total da assistência (de acordo com todos users
+
+
+        //Deixando a avaliação do usuario constante para ele
+        reff = FirebaseDatabase.getInstance().getReference().child("usuarios").child(uid).child("avaliações").child(extraId);
+        reff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Se tiver avaliação do usuario no banco, puxar dado
+                if(dataSnapshot.child("avaliação").exists()){
+                ratingBar.setRating(dataSnapshot.child("avaliação").getValue(Float.class));
+                //Float.class transformará o valor do BD diretamente no que pedimos(float)
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
 
@@ -632,7 +674,6 @@ public class Suggestion extends AppCompatActivity {
         //Configurando o tempo para salvar
         String saveCurrentTime;
         String saveCurrentDate;
-
 
         Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("dd MMM, YYYY");
@@ -675,8 +716,6 @@ public class Suggestion extends AppCompatActivity {
             reff = FirebaseDatabase.getInstance().getReference().child("usuarios").child(uid).child("favoritos").child(extraId);
             reff.removeValue();
         }
-
-
 
 
     public void voltar(View view) {

@@ -322,16 +322,16 @@
 
     <RatingBar
         android:id="@+id/ratingBar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="235dp"
+        android:layout_height="46dp"
         android:numStars="5"
         android:stepSize="1"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/assistImage"
-        app:layout_constraintVertical_bias="0.428"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="272dp" />
+        app:layout_constraintVertical_bias="0.155"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tipo_textview"
@@ -366,6 +366,20 @@
         app:layout_constraintTop_toBottomOf="@+id/tipo_textview"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints,OnClick" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/semiboldsegoeui"
+        android:text="Sua avaliação"
+        android:textColor="#ffff"
+        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/assistImage"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>

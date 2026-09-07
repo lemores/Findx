@@ -161,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap = googleMap;
         mMap.getUiSettings().setMapToolbarEnabled(false);
-        Toast.makeText(this, "Bem Vindo!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Bem Vindo!", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: mapa ta pronto");
         getWindow().setStatusBarColor(Color.parseColor("#20111111"));
         getWindow().setNavigationBarColor(Color.parseColor("#20111111"));
