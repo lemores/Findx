@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -22,9 +23,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class Suggestion extends AppCompatActivity {
 
@@ -36,9 +40,11 @@ public class Suggestion extends AppCompatActivity {
     String uid;
     int i = 0;
     int countAssist = 0;
+    String assistParent;
     private int current_image;
     ImageView favImage;
     int[] images = {R.drawable.salvar,R.drawable.salvo};
+    String extraId;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,8 @@ public class Suggestion extends AppCompatActivity {
         setContentView(R.layout.suggestion);
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
+
+       //Toast.makeText(Suggestion.this,"Marker position: "+getIntent().getStringExtra("Marker position"),Toast.LENGTH_SHORT).show();
 
         favImage = findViewById(R.id.favImage);
         favB = findViewById(R.id.favB);
@@ -74,24 +82,106 @@ public class Suggestion extends AppCompatActivity {
             {}});
 
 
-        //Acessando informações da assistência selecionada (no caso, a 1)
-        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("1");
+        //Comparando Id recebido da assist clicada com Id´s do BD para descobrir child de qual assist é,
+        //e puxar suas informações
+        extraId = getIntent().getStringExtra("Marker Id");
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("1"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
         reff.addValueEventListener(new ValueEventListener() {
+
+                //Pegando os valores de Id´s do BD
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String Id = (String) dataSnapshot.child("id").getValue();
+                    Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                    //Comparando com o da assist clicada
+                    if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("2"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String nome = dataSnapshot.child("nome").getValue().toString();
-                String categoria = dataSnapshot.child("categoria").getValue().toString();
-                String endereco = dataSnapshot.child("endereco").getValue().toString();
-                String telefone = dataSnapshot.child("telefone").getValue().toString();
-                String horario = dataSnapshot.child("horario").getValue().toString();
-                String site = dataSnapshot.child("site").getValue().toString();
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
 
-                a.setText(nome);
-                b.setText(categoria);
-                c.setText(endereco);
-                d.setText(telefone);
-                e.setText(horario);
-                f.setText(site);
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
             }
 
             @Override
@@ -99,6 +189,435 @@ public class Suggestion extends AppCompatActivity {
 
             }
         });
+
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("3"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("4"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("5"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("6"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("7"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("8"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("9"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //Puxando todos valores das assists
+        reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("10"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
+        reff.addValueEventListener(new ValueEventListener() {
+
+
+
+            //Pegando os valores de Id´s do BD
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Id = (String) dataSnapshot.child("id").getValue();
+                Toast.makeText(Suggestion.this,"Id:"+extraId+Id,Toast.LENGTH_SHORT).show();
+
+                //Comparando com o da assist clicada
+                if(extraId.equals(Id)){
+                    assistParent =  String.valueOf(dataSnapshot.getRef().getKey());
+                    //Toast.makeText(Suggestion.this,""+assistParent,Toast.LENGTH_SHORT).show();
+
+
+                    //Acessando informações da assistência clicada
+                    reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(assistParent);
+                    reff.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nome = dataSnapshot.child("nome").getValue().toString();
+                            String categoria = dataSnapshot.child("categoria").getValue().toString();
+                            String endereco = dataSnapshot.child("endereco").getValue().toString();
+                            String telefone = dataSnapshot.child("telefone").getValue().toString();
+                            String horario = dataSnapshot.child("horario").getValue().toString();
+                            String site = dataSnapshot.child("site").getValue().toString();
+
+                            a.setText(nome);
+                            b.setText(categoria);
+                            c.setText(endereco);
+                            d.setText(telefone);
+                            e.setText(horario);
+                            f.setText(site);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         //Favoritando assistências
         favB.setOnClickListener(new OnClickListener() {

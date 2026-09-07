@@ -182,9 +182,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
         try {
-            boolean sucess = googleMap.setMapStyle(
+            boolean success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(this, R.raw.mapstyle));
-            if (!sucess) {
+            if (!success) {
                 Log.e("MapsActivity", "Style parsing failed.");
             }
         } catch (Resources.NotFoundException e) {
@@ -224,7 +224,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             MarkerOptions assistencia = new MarkerOptions();
                             assistencia.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                             mMap.addMarker(assistencia.position(posicao).title(nome));//.snippet("Population: 4,137,400"));
-                            final Marker markAssist = mMap.addMarker(assistencia);
 
                         }
 
@@ -248,7 +247,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         Intent suggestion = new Intent(getApplication(), Suggestion.class);
+        //Toast.makeText(MapsActivity.this,""+marker.getId(),Toast.LENGTH_SHORT).show();
+        String Id = String.valueOf(marker.getId());
+        suggestion.putExtra("Marker Id", Id);
         startActivity(suggestion);
+
         return false;
     }
 

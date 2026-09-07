@@ -2,6 +2,7 @@
   <dictionary name="Ma">
     <words>
       <w>acessando</w>
+      <w>achar</w>
       <w>acordo</w>
       <w>adicionado</w>
       <w>assistencias</w>
@@ -13,8 +14,12 @@
       <w>categoria</w>
       <w>certa</w>
       <w>childs</w>
+      <w>clicada</w>
+      <w>comparando</w>
       <w>configurando</w>
+      <w>confusao</w>
       <w>deixar</w>
+      <w>descobrir</w>
       <w>desfavoritado</w>
       <w>endereco</w>
       <w>esteja</w>
@@ -22,30 +27,45 @@
       <w>favoritado</w>
       <w>favoritando</w>
       <w>favoritos</w>
+      <w>ficar</w>
       <w>firebase</w>
+      <w>gerar</w>
       <w>horario</w>
       <w>horário</w>
       <w>icone</w>
       <w>imagem</w>
       <w>indo</w>
       <w>informações</w>
+      <w>jeito</w>
       <w>lista</w>
       <w>logado</w>
       <w>marcadores</w>
       <w>mudando</w>
+      <w>nulo</w>
+      <w>pegando</w>
+      <w>percorrer</w>
+      <w>puxando</w>
+      <w>puxar</w>
+      <w>qual</w>
       <w>quando</w>
       <w>quantidade</w>
+      <w>recebido</w>
+      <w>recebidos</w>
       <w>reff</w>
       <w>registrada</w>
       <w>salvando</w>
       <w>salvar</w>
       <w>selecionada</w>
+      <w>suas</w>
       <w>tela</w>
       <w>telefone</w>
       <w>tentar</w>
       <w>tirar</w>
+      <w>todas</w>
+      <w>todos</w>
       <w>transformar</w>
       <w>usuarios</w>
+      <w>valores</w>
       <w>voltar</w>
     </words>
   </dictionary>
