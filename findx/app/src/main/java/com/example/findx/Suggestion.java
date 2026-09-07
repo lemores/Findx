@@ -45,10 +45,6 @@ public class Suggestion extends AppCompatActivity {
     RatingBar ratingBar;
     ImageView assistImage;
     Button button;
-    EditText comentar;
-    TextView enviarC;
-    Button logoutButton;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +103,7 @@ public class Suggestion extends AppCompatActivity {
                             String telefone = dataSnapshot.child("telefone").getValue().toString();
                             String horario = dataSnapshot.child("horario").getValue().toString();
                             String site = dataSnapshot.child("site").getValue().toString();
+                            String foto = dataSnapshot.child("foto").getValue().toString();
 
                             a.setText(nome);
                             b.setText(categoria);
@@ -114,6 +111,10 @@ public class Suggestion extends AppCompatActivity {
                             d.setText(telefone);
                             e.setText(horario);
                             f.setText(site);
+
+                            //Mudando para foto da assist
+                            Glide.with(getApplicationContext()).load(foto).into(imageView);
+
                         }
 
                         @Override
@@ -158,6 +159,7 @@ public class Suggestion extends AppCompatActivity {
                             String telefone = dataSnapshot.child("telefone").getValue().toString();
                             String horario = dataSnapshot.child("horario").getValue().toString();
                             String site = dataSnapshot.child("site").getValue().toString();
+                            String foto = dataSnapshot.child("foto").getValue().toString();
 
                             a.setText(nome);
                             b.setText(categoria);
@@ -165,6 +167,9 @@ public class Suggestion extends AppCompatActivity {
                             d.setText(telefone);
                             e.setText(horario);
                             f.setText(site);
+
+                            //Mudando para foto da assist
+                            Glide.with(getApplicationContext()).load(foto).into(imageView);
                         }
 
                         @Override
@@ -669,29 +674,11 @@ public class Suggestion extends AppCompatActivity {
             }
         });
 
-        /*Configurando LogOut
-        logoutButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logout();
-            }
-        });*/
-
-
         /*Configurando comentários
         if(comentar.getText().toString().equals("")){
             Toast.makeText(Suggestion.this,"você não pode enviar algo vazio",Toast.LENGTH_SHORT).show();
         }
         */
-    }
-
-    private void logout() {
-        if(user!= null){
-            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(Suggestion.this, "Você saiu da sua conta!",Toast.LENGTH_LONG).show();
-            Intent logout = new Intent(Suggestion.this, Introduction.class);
-            startActivity(logout);
-        }
     }
 
     private void favAssist() {

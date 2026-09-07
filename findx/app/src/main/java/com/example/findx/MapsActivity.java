@@ -420,7 +420,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         backDeviceLocation();
                     }
                     else {
-                        Toast.makeText(MapsActivity.this, "Nao te encontrei", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapsActivity.this, "Não foi possível te localizar", Toast.LENGTH_SHORT).show();
                     }
                 } catch(Exception ex) {
                     Log.e(TAG, "EXCEPTION CAUGHT WHILE EXECUTING DATABASE TRANSACTION");
@@ -625,9 +625,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void buildAlertMessageNoWifi() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Ae mano o Wifi ta desligado,tem que liga samerda pro app funfar! taokey?")
+        builder.setMessage("Ligar o wifi para melhorar buscas?")
                 .setCancelable(false)
-                .setPositiveButton("ta bom", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                     }
@@ -650,9 +650,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Ae mano o GPS ta desligado,tem que liga samerda pro app funfar! taokey?")
+        builder.setMessage("Ligue o gps para o app funcionar")
                 .setCancelable(false)
-                .setPositiveButton("ta bom", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
@@ -699,11 +699,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             else
             {
-                Toast.makeText(MapsActivity.this, "N achei", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Não localizado", Toast.LENGTH_SHORT).show();
             }
         }
         else{
-            Toast.makeText(MapsActivity.this, "Num tem nada :(", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MapsActivity.this, "Não localizado", Toast.LENGTH_SHORT).show();
 
         }
     }

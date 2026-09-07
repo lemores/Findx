@@ -10,6 +10,14 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class userPage extends AppCompatActivity {
 
@@ -21,10 +29,20 @@ public class userPage extends AppCompatActivity {
     private int revealX;
     private int revealY;
 
+    FirebaseUser user;
+    String uid;
+    TextView emailUser;
+    Button desconectarB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        emailUser = findViewById(R.id.emailUser);
+        desconectarB = findViewById(R.id.desconectarB);
+
 
         final Intent intent = getIntent();
 
@@ -52,6 +70,18 @@ public class userPage extends AppCompatActivity {
         } else {
             rootLayout.setVisibility(View.VISIBLE);
         }
+
+
+        //Mostrando dados do usuário
+        emailUser.setText(user.getEmail());
+
+        //Configurando logOut
+        desconectarB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
     }
 
     protected void revealActivity(int x, int y) {
@@ -90,6 +120,20 @@ public class userPage extends AppCompatActivity {
 
 
             circularReveal.start();
+        }
+    }
+
+    public void voltar(View view) {
+        Intent voltar = new Intent(getApplication(), MapsActivity.class);
+        startActivity(voltar);
+    }
+
+    private void logout() {
+        if (user != null) {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(userPage.this, "Você saiu da sua conta!", Toast.LENGTH_LONG).show();
+            Intent logout = new Intent(userPage.this, Introduction.class);
+            startActivity(logout);
         }
     }
 }

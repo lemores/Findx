@@ -47,21 +47,21 @@
                     app:layout_constraintVertical_bias="0.013"
                     tools:ignore="MissingConstraints" />
 
+
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/semiboldsegoeui"
+                    android:fontFamily="@font/segoeuibold"
                     android:text="Recomendados"
                     android:textColor="#000"
                     android:textSize="15dp"
                     app:layout_constraintBottom_toTopOf="@+id/cardsujo"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.052"
+                    app:layout_constraintHorizontal_bias="0.055"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
                     app:layout_constraintVertical_bias="1.0" />
-
 
                 <android.support.v7.widget.CardView
                     android:layout_marginStart="15dp"
@@ -69,7 +69,6 @@
                     android:id="@+id/cardfav"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
                     android:elevation="2dp"
                     android:fadingEdgeLength="2dp"
                     app:cardBackgroundColor="#C9C7C6"
@@ -78,16 +77,35 @@
                     app:cardMaxElevation="2dp"
                     app:cardUseCompatPadding="false"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/cardsujo"
-                    app:layout_constraintVertical_bias="0.077"
-                    tools:layout_editor_absoluteX="16dp">
+                    app:layout_constraintTop_toBottomOf="@+id/cardsujo"
+                    app:layout_constraintVertical_bias="0.199"
+                    tools:layout_editor_absoluteX="17dp">
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <TextView
                         android:id="@+id/favoritedAssists"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingStart="15dp"
+                        android:text="Conserta smart"
+                        android:textColor="#fff" />
+
+                    <TextView
+                        android:id="@+id/favoritedAssists2"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="40dp"
+                        android:paddingStart="15dp"
+                        android:text="Eletroshop"
+                        android:textColor="#fff" />
+
+                    <TextView
+                        android:id="@+id/favoritedAssists3"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_marginTop="30dp"
-                        android:text="favoritedAssists"
+                        android:layout_marginTop="70dp"
+                        android:paddingStart="15dp"
+                        android:text="Mooca Service"
                         android:textColor="#fff" />
                 </android.support.v7.widget.CardView>
 
@@ -96,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:fontFamily="@font/semiboldsegoeui"
+                    android:fontFamily="@font/segoeuibold"
                     android:text="Favoritos"
                     android:textColor="#000"
                     android:textSize="15dp"
@@ -123,30 +141,52 @@
                     app:cardUseCompatPadding="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.049"
-                    tools:layout_editor_absoluteX="28dp">
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/recommendedAssists"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="30dp"
-                        android:text="recommendedAssists"
-                        android:textColor="#fff" />
+                    app:layout_constraintVertical_bias="0.084"
+                    tools:layout_editor_absoluteX="32dp">
 
                     <Spinner
                         android:id="@+id/spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:entries="@array/sugestoes"
                         android:spinnerMode="dropdown" />
+
+                    <TextView
+                        android:id="@+id/recommendedAssists3"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="50dp"
+                        android:paddingStart="8dp"
+                        android:text="Conserta smart"
+                        android:textColor="#fff" />
+
+                    <TextView
+
+                        android:id="@+id/recommendedAssists2"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="80dp"
+                        android:paddingStart="8dp"
+                        android:text="Eletroshop"
+                        android:textColor="#fff" />
+
+                    <TextView
+                        android:id="@+id/recommendedAssists"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="110dp"
+                        android:paddingStart="8dp"
+                        android:text="Mooca Service"
+                        android:textColor="#fff" />
+
 
                 </android.support.v7.widget.CardView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/semiboldsegoeui"
+                    android:fontFamily="@font/segoeuibold"
                     android:text="Suas avaliações"
                     android:textColor="#000"
                     android:textSize="15dp"
@@ -172,17 +212,16 @@
                     app:cardUseCompatPadding="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardfav"
-                    app:layout_constraintVertical_bias="0.113">
+                    app:layout_constraintVertical_bias="0.327">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/avaliatedAssists"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginTop="30dp"
-                        android:text="avaliatedAssists"
                         android:textColor="#fff" />
 
                 </android.support.v7.widget.CardView>

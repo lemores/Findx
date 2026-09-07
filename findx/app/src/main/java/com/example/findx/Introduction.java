@@ -27,7 +27,7 @@ public class Introduction extends AppCompatActivity {
             startActivity(principal);
         }
 
-            flipper = findViewById(R.id.flipper);
+            /*flipper = findViewById(R.id.flipper);
             flipper2 = findViewById(R.id.flipper2);
 
             int[] images = {R.drawable.ponto, R.drawable.a, R.drawable.b, R.drawable.c, R.drawable.d};
@@ -40,9 +40,9 @@ public class Introduction extends AppCompatActivity {
 
             for (int i = 0; i < transicoes.length; i++) {
                 flippertransicoes(transicoes[i]);
-            }
+            }*/
         }
-
+/*
         public void flipperimages (int image){
             ImageView imageView = new ImageView(this);
             imageView.setBackgroundResource(image);
@@ -68,7 +68,7 @@ public class Introduction extends AppCompatActivity {
             flipper2.setInAnimation(this, android.R.anim.slide_in_left);
             flipper2.setOutAnimation(this, android.R.anim.slide_out_right);
 
-        }
+        }*/
         public void irparalogin(View view) {
             Intent login = new Intent(getApplicationContext(), Login.class);
             startActivity(login);

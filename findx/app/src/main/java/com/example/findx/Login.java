@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.login);
 
-        flipper = findViewById(R.id.flipper);
+        //flipper = findViewById(R.id.flipper);
         email = findViewById(R.id.email);
         senha = findViewById(R.id.senha);
         conectarl = findViewById(R.id.conectarl);
