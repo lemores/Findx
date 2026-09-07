@@ -57,6 +57,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -100,10 +101,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String CurrentuserID;
     DatabaseReference reff;
 
+    //TODO Mudar icone do favorito quando apertado
+    //TODO Configurar página de favoritos, e remove-los
+    //TODO LogOut User
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState)
-    {
+    protected void onCreate(final Bundle savedInstanceState) {
+        //if (auth.getCurrentUser() != null)
+
         auth = FirebaseAuth.getInstance();
         CurrentuserID = auth.getCurrentUser().getUid();
 
@@ -187,8 +192,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        // TODO Criar um ID para cada markerOption, e então comparar caso assistencia for clicada (bool),
-        //  checar seu id, e mudar child do Suggestion para seu id
+        // TODO
 
         // Set a listener for marker click.
         mMap.setOnMarkerClickListener(this);
@@ -202,7 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 countAssist = (int) dataSnapshot.getChildrenCount();
                 Toast.makeText(MapsActivity.this, countAssist +" Assistências", Toast.LENGTH_SHORT).show();
 
-
+                //Poem os marcadores de acordo com a quantidade registrada (countAssist)
                 for (int i = 1; i <= countAssist; i++)
                 {
                     reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child(Integer.toString(i));
@@ -223,8 +227,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             final Marker markAssist = mMap.addMarker(assistencia);
 
                         }
-
-
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -303,6 +305,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alert.show();
     }
     public void userPage() {
+        final View map = (View) findViewById(R.id.map);
+        final LinearLayout user2 = (LinearLayout) findViewById(R.id.pag_user2);
         final FloatingActionButton btn_user = (FloatingActionButton) findViewById(R.id.btn_user);
         final FloatingActionButton close = (FloatingActionButton) findViewById(R.id.close_button);
         final Animation showClose = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_center);
@@ -312,13 +316,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final AppCompatImageView pag_user = (AppCompatImageView) findViewById(R.id.pag_user);
         final Animation showUser = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.show_user_page);
         final Animation hideUser = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.hide_user_page);
+        final Animation user2_close = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.user2_close);
+        final Animation user2_open = AnimationUtils.loadAnimation(MapsActivity.this, R.anim.user2_open);
         btn_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                map.setVisibility(GONE);
                 btn_user.hide();
                 pag_user.setVisibility(VISIBLE);
                 pag_user.startAnimation(showUser);
                 close.show();
+                user2.startAnimation(user2_open);
             }
         });
         close.setOnClickListener(new View.OnClickListener() {
@@ -329,6 +337,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 pag_user.startAnimation(hideUser);
                 pag_user.setVisibility(GONE);
                 close.hide();
+                user2.startAnimation(user2_close);
+                map.setVisibility(VISIBLE);
             }
         });
     }
