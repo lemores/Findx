@@ -1,17 +1,24 @@
 package com.example.findx;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -32,7 +39,7 @@ public class Suggestion extends AppCompatActivity {
 
     private Button favB;
     private ImageView imageView;
-    TextView a, b, c, d, e, f;
+    TextView a, b, c, d, e, f, avaliaText;
     DatabaseReference reff;
     FirebaseUser user;
     String uid;
@@ -44,21 +51,30 @@ public class Suggestion extends AppCompatActivity {
     RatingBar ratedBar;
     RatingBar ratingBar;
     ImageView assistImage;
+    EditText comentar;
+    TextView enviarC;
+    Button logoutButton;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.suggestion);
 
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
+        avaliaText = findViewById(R.id.avaliaText);
         assistImage = findViewById(R.id.assistImage);
         ratedBar = findViewById(R.id.ratedBar);
         ratingBar = findViewById(R.id.ratingBar);
         favImage = findViewById(R.id.favImage);
         favB = findViewById(R.id.favB);
         imageView = findViewById(R.id.assistImage);
+        comentar = findViewById(R.id.comentar);
+        enviarC = findViewById(R.id.enviar_comentario);
+        logoutButton = findViewById(R.id.logout);
         a = findViewById(R.id.nome_textview);
         b = findViewById(R.id.categoria_textview);
         c = findViewById(R.id.localizacao_textview);
@@ -68,12 +84,13 @@ public class Suggestion extends AppCompatActivity {
 
 
         //Testando RatingBar
-        assistImage.setVisibility(View.INVISIBLE);
+        //assistImage.setVisibility(View.INVISIBLE);
+        //ratingBar.setVisibility(View.INVISIBLE);
+        //avaliaText.setVisibility(View.INVISIBLE);
 
         //Comparando Id recebido da assist clicada com Id´s do BD para descobrir child de qual assist é,
         //e puxar suas informações
         extraId = getIntent().getStringExtra("Marker Id");
-
 
         //Puxando todos valores das assists
         reff = FirebaseDatabase.getInstance().getReference().child("assistencias").child("1"); //TODO achar jeito de percorrer todas childs(1-10) sem ficar nulo
@@ -577,12 +594,10 @@ public class Suggestion extends AppCompatActivity {
                         }
                     });
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
@@ -624,7 +639,7 @@ public class Suggestion extends AppCompatActivity {
         });
 
         //Firebase Storage image Link
-        String url = "https://firebasestorage.googleapis.com/v0/b/findx-x6969.appspot.com/o/IMG-20180731-WA0000.jpg?alt=media&token=3b27f9f2-a0a5-4892-8276-69382e6ea1ce";
+        String url = "https://firebasestorage.googleapis.com/v0/b/findx-x6969.appspot.com/o/conserta_smart.jpeg?alt=media&token=173d03c4-7879-4ad7-a395-726242ed9280";
         Glide.with(getApplicationContext()).load(url).into(imageView);
 
 
@@ -643,13 +658,11 @@ public class Suggestion extends AppCompatActivity {
 
                 /*Caso quisesse salvar apenas rating sem hashmap
                 reff.child("usuarios").child(uid).child("avaliações").child(extraId).setValue(rating);*/
-
-
             }
         });
 
 
-        //Calculando avaliação total da assistência (de acordo com todos users
+        //TODO Calcular avaliação total da assistência (de acordo com todos users)
 
 
         //Deixando a avaliação do usuario constante para ele
@@ -667,8 +680,31 @@ public class Suggestion extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        //Configurando LogOut
+        logoutButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+
+
+        /*Configurando comentários
+        if(comentar.getText().toString().equals("")){
+            Toast.makeText(Suggestion.this,"você não pode enviar algo vazio",Toast.LENGTH_SHORT).show();
+        }
+        */
     }
 
+    private void logout() {
+        if(user!= null){
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(Suggestion.this, "Você saiu da sua conta!",Toast.LENGTH_LONG).show();
+            Intent logout = new Intent(Suggestion.this, Introduction.class);
+            startActivity(logout);
+        }
+    }
 
     private void favAssist() {
         //Configurando o tempo para salvar

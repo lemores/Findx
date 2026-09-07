@@ -147,7 +147,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             case R.id.loginbutton:
                 signIn();
                 break;
-         /*   case R.id.signoutbutton:
+            /*case R.id.signoutbutton:
                 signOut();
                 break;*/
         }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,7 @@ public class Introduction extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         //Indo para tela principal caso esteja ja logado
-        if(auth.getCurrentUser() != null){
+        if(auth.getCurrentUser()!= null){
             Intent principal = new Intent(getApplicationContext(), MapsActivity.class);
             startActivity(principal);
         }

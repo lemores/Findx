@@ -5,6 +5,7 @@
       <w>achar</w>
       <w>acordo</w>
       <w>adicionado</w>
+      <w>algo</w>
       <w>apenas</w>
       <w>assistencia</w>
       <w>assistencias</w>
@@ -17,23 +18,34 @@
       <w>banco</w>
       <w>cadastradas</w>
       <w>calculando</w>
+      <w>calcular</w>
       <w>caso</w>
       <w>categoria</w>
       <w>certa</w>
       <w>childs</w>
+      <w>cima</w>
       <w>clicada</w>
+      <w>comentar</w>
+      <w>comentario</w>
+      <w>comentarios</w>
+      <w>comentários</w>
       <w>comparando</w>
       <w>configurando</w>
       <w>confusao</w>
       <w>constante</w>
+      <w>conta</w>
       <w>crashlytics</w>
+      <w>daqui</w>
       <w>deixando</w>
       <w>deixar</w>
+      <w>deixe</w>
       <w>descobrir</w>
       <w>desfavoritado</w>
       <w>desfavoritando</w>
       <w>diretamente</w>
       <w>endereco</w>
+      <w>enviar</w>
+      <w>esquece</w>
       <w>esteja</w>
       <w>estiver</w>
       <w>está</w>
@@ -63,6 +75,7 @@
       <w>pedimos</w>
       <w>pegando</w>
       <w>percorrer</w>
+      <w>pode</w>
       <w>pressionada</w>
       <w>puxando</w>
       <w>puxar</w>
@@ -76,15 +89,19 @@
       <w>registrada</w>
       <w>removendo</w>
       <w>removido</w>
+      <w>saiu</w>
       <w>salva</w>
       <w>salvando</w>
       <w>salvar</w>
       <w>selecionada</w>
+      <w>signoutbutton</w>
       <w>suas</w>
       <w>tela</w>
       <w>telefone</w>
       <w>tentar</w>
       <w>testando</w>
+      <w>textview</w>
+      <w>tipo</w>
       <w>tirar</w>
       <w>tiver</w>
       <w>todas</w>
@@ -94,7 +111,9 @@
       <w>usuario</w>
       <w>usuarios</w>
       <w>valores</w>
+      <w>vazio</w>
       <w>verificando</w>
+      <w>você</w>
       <w>voltar</w>
     </words>
   </dictionary>

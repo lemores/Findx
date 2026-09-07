@@ -368,7 +368,7 @@
         tools:ignore="MissingConstraints,OnClick" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/avaliaText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/semiboldsegoeui"
@@ -380,6 +380,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/assistImage"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sair"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toEndOf="@+id/categoria_textview"
+        app:layout_constraintTop_toBottomOf="@+id/assistImage"
+        app:layout_constraintVertical_bias="0.704" />
 
 
 </android.support.constraint.ConstraintLayout>

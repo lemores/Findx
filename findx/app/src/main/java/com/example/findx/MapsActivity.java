@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -72,6 +73,7 @@ import static android.view.View.VISIBLE;
 import static java.lang.String.valueOf;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -96,10 +98,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CountDownTimer waitTimer;
     private List<LocalItem> localList;
     private SlidingUpPanelLayout mLayout;
-    private FirebaseAuth auth;
+    private FirebaseUser auth;
     int countAssist = 0;
     String CurrentuserID;
     DatabaseReference reff;
+    GoogleApiClient mGoogleApiClient;
 
     //TODO Mudar icone do favorito quando apertado
     //TODO Configurar página de favoritos, e remove-los
@@ -107,10 +110,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        //if (auth.getCurrentUser() != null)
 
-        auth = FirebaseAuth.getInstance();
-        CurrentuserID = auth.getCurrentUser().getUid();
+        //auth = FirebaseAuth.getInstance().getCurrentUser();
+        //CurrentuserID = auth.getUid();
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

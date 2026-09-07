@@ -40,7 +40,7 @@
         android:backgroundTint="#ffff"
         android:ems="10"
         android:hint="Senha"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:textAllCaps="false"
         android:textColor="#ffff"
         android:textColorHint="#ffff"
